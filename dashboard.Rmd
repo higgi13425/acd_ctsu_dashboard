@@ -1,0 +1,39 @@
+---
+title: "ACD CTSU Preaward Timelines"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(readxl)
+library(DT)
+dash <- read_excel('export_acd_data_preaward.xlsx')
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Table A
+
+```{r}
+DT::datatable(dash)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
