@@ -7,10 +7,19 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
 library(flexdashboard)
 library(readxl)
 library(DT)
+library(lubridate)
 dash <- read_excel('export_acd_data_preaward.xlsx')
+dash <- dash %>% arrange(PROTOCOL_ID, PROTOCOL_NO, TASK_INDEX)
+dash <- dash %>% group_by(PROTOCOL_ID) %>% 
+  filter(!is.na(COMPLETED_DATE)) %>% 
+  mutate(start_date = case_when(TASK_INDEX==1 ~ as.Date(COMPLETED_DATE)) - days(1)) %>% 
+  mutate(start_date = case_when(TASK_INDEX>1 ~ lag(as.Date(COMPLETED_DATE)))) %>% 
+  select(PROTOCOL_ID:SHORT_TITLE, PRINCIPAL_SPONSOR:DIRECT_SPONSOR, TASK_INDEX:`NA`, start_date) %>% 
+  ungroup()
 ```
 
 Column {data-width=650}
